@@ -117,8 +117,7 @@ export const updateWords = async (wordbankId, toUpdateWords) => {
   });
 };
 
-const getAuthorizationToken =  (idToken) => {
-  
+const getAuthorizationToken = (idToken) => {
   return { Authorization: `Bearer ${idToken}` };
 };
 
@@ -160,6 +159,7 @@ export const getCurrentWordbank = async () => {
       Authorization: `Bearer ${idToken}`, // Send token in Authorization header
     },
   });
+  console.log(response.data);
   return response.data;
 };
 

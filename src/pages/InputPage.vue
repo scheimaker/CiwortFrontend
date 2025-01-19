@@ -1,16 +1,12 @@
 <template>
   <q-page class="q-pa-md">
-    <q-card class="q-pa-md" style="max-width: 800px; margin: auto;">
-      <q-card-section>  
+    <q-card class="q-pa-md" style="max-width: 800px; margin: auto">
+      <q-card-section>
         <q-btn label="test" @click="testClick"></q-btn>
       </q-card-section>
       <q-card-section>
         <div class="text-h6 text-center q-mb-md">Manage Word Banks</div>
 
-        
-        
-
-      
         <!-- Dropdown to select a wordbank -->
         <q-select
           v-model="selectedWordbank"
@@ -28,9 +24,12 @@
           dense
           class="q-mb-md"
         />
-        <q-btn label="Add Word Bank" color="primary" class="full-width q-mb-md" @click="addWordbank" />
-
-       
+        <q-btn
+          label="Add Word Bank"
+          color="primary"
+          class="full-width q-mb-md"
+          @click="addWordbank"
+        />
       </q-card-section>
 
       <!-- Remaining sections for word input -->
@@ -117,7 +116,13 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
-import { submitWordsToWordbank, fetchWordbanks, createWordbank ,testFunction, getCurrentWordbank} from 'src/api/words';
+import {
+  submitWordsToWordbank,
+  fetchWordbanks,
+  createWordbank,
+  testFunction,
+  getCurrentWordbank,
+} from 'src/api/words';
 
 export default {
   setup() {
@@ -164,7 +169,7 @@ export default {
         }));
 
         if (response.length > 0) {
-           currentWordbank = await getCurrentWordbank();
+          currentWordbank = await getCurrentWordbank();
           selectedWordbank.value = currentWordbank.label;
         }
       } catch (error) {
@@ -243,8 +248,11 @@ export default {
 
       try {
         await submitWordsToWordbank(
-          currentWordbank.value,
-          words.value.map((item) => ({ text: item.word, language: item.language }))
+          selectedWordbank.value.value,
+          words.value.map((item) => ({
+            text: item.word,
+            language: item.language,
+          }))
         );
 
         $q.notify({
@@ -271,7 +279,6 @@ export default {
       } catch (error) {
         console.log(error);
         $q.notify({
-          
           color: 'negative',
           message: 'Failed to test function',
           position: 'top',

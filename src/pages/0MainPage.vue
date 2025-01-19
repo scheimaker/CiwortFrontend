@@ -4,7 +4,7 @@
     <q-header elevated>
       <q-toolbar class="custom-toolbar">
         <q-item-label class="q-ml-auto text-center">
-          Current Wordbank: {{ currentWordbank }}</q-item-label
+          Current Wordbank: {{ currentWordbankName }}</q-item-label
         >
         <!-- Button to navigate to SettingsPage -->
         <q-btn
@@ -14,15 +14,15 @@
           icon="settings"
           aria-label="Settings"
           @click="navigateTo('/settings')"
-          class="q-ml-auto "
+          class="q-ml-auto"
         />
       </q-toolbar>
     </q-header>
 
     <q-page class="row justify-center items-center q-pa-md">
       <!-- Bubble Buttons -->
-       <q-card-section/> 
-      
+      <q-card-section />
+
       <div class="bubbles-container">
         <q-btn
           v-for="(item, index) in bubbles"
@@ -98,8 +98,9 @@ const bubbles = ref([
 
 // Global variable for currentWordbank
 const currentWordbank = ref(null);
- // Provide currentWordbank globally
- provide('currentWordbank', currentWordbank);
+const currentWordbankName = ref('');
+// Provide currentWordbank globally
+provide('currentWordbank', currentWordbank);
 const navigateTo = (route) => {
   router.push(route);
 };
@@ -108,9 +109,10 @@ const navigateTo = (route) => {
 onMounted(async () => {
   try {
     const response = await getCurrentWordbank();
-    currentWordbank.value = response.value.value; // Save current wordbank globally
+    console.log('Current Wordbank Response:', response);
+    currentWordbank.value = response.currentWordbank.value; // Save current wordbank globally
+    currentWordbankName.value = response.currentWordbank.label;
     console.log('Current Wordbank:', currentWordbank.value);
-   
   } catch (error) {
     console.error('Failed to fetch current wordbank:', error);
     currentWordbank.value = 'Unknown'; // Fallback if fetching fails

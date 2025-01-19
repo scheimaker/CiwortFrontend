@@ -22,22 +22,59 @@
 
         <q-card-section class="text-center q-mt-md">
           <!-- "Yes I know" button with larger size -->
-          <q-btn
-            label="Yes I know"
-            color="positive"
-            class="q-mr-md q-px-lg q-py-md"
-            style="font-size: 1.2rem"
-            @click="handleYes"
-          />
+          <div>
+            <q-btn
+              label="Yes I know"
+              color="positive"
+              class="q-mr-md q-px-lg q-py-md"
+              style="font-size: 1rem"
+              @click="handleYes"
+            />
 
-          <!-- "No" button with larger size -->
-          <q-btn
-            label="No"
-            color="negative"
-            class="q-px-lg q-py-md"
-            style="font-size: 1.2rem"
-            @click="handleNo"
+            <!-- "No" button with larger size -->
+            <q-btn
+              label="No"
+              color="negative"
+              class="q-px-lg q-py-md"
+              style="font-size: 1rem"
+              @click="handleNo"
+            />
+          </div>
+          <br />
+          <div>
+            <q-btn
+              label="Add Backside"
+              color="primary"
+              @click="toggleBacksideInput"
+              style="font-size: 0.8rem"
+            />
+          </div>
+        </q-card-section>
+
+        <!-- Backside Input Section -->
+        <q-card-section v-if="showBacksideInput" class="q-mt-md text-center">
+          <q-input
+            v-model="backsideText"
+            placeholder="Enter backside content"
+            outlined
+            style="max-width: 100%; margin-bottom: 10px"
           />
+          <div>
+            <q-btn
+              label="OK"
+              color="positive"
+              class="q-mr-md q-px-md"
+              style="font-size: 0.8rem"
+              @click="confirmBackside"
+            />
+            <q-btn
+              label="Cancel"
+              color="negative"
+              class="q-px-md"
+              style="font-size: 0.8rem"
+              @click="cancelBackside"
+            />
+          </div>
         </q-card-section>
 
         <q-card-section class="text-center">
@@ -117,10 +154,10 @@ const handleYes = async () => {
           rightTimes: currentWord.value.rightTimes,
         });
         goToNextWord();
-    await updateWords(toUpdateWords); // Update the word on the backend
+    await updateWords(currentWordbank.value, toUpdateWords); // Update the word on the backend
 
     await animateStar(); // Animate a star toward the star container
-    
+
   }
 };
 
@@ -134,11 +171,14 @@ var toUpdateWords = [];
           id: currentWord.value.id,
           wrongTimes: currentWord.value.wrongTimes,
         });
-    await updateWords(toUpdateWords);
+    await updateWords(currentWordbank.value,toUpdateWords);
     goToNextWord();
   }
 };
 
+const addBackside = () => {
+
+};
 // Navigate back to the main page
 const handleBack = () => {
   router.push('main');
