@@ -176,9 +176,7 @@ var toUpdateWords = [];
   }
 };
 
-// const addBackside = () => {
-
-// };
+//
 // Navigate back to the main page
 const handleBack = () => {
   router.push('main');
